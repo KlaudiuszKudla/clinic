@@ -13,5 +13,5 @@ CREATE TABLE "appointments"
     admission_end_date   DATE,
     FOREIGN KEY (office_id) REFERENCES offices (id),
     FOREIGN KEY (patient_id) REFERENCES patients (id),
-    FOREIGN KEY (doctor_id) REFERENCES doctors (id),
+    FOREIGN KEY (doctor_id) REFERENCES doctors (id)
 )

@@ -1,16 +1,29 @@
 package com.example.clinic.service;
 
 import com.example.clinic.entity.Doctor;
+import com.example.clinic.entity.DoctorCreatorDTO;
 import com.example.clinic.exception.DocktorDontExistException;
 import com.example.clinic.repository.DoctorRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DoctorService {
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     private final DoctorRepository doctorRepository;
     public ResponseEntity<Doctor> getDoctorBySpecialization(String specialization) throws DocktorDontExistException {
@@ -21,4 +34,40 @@ public class DoctorService {
             throw new DocktorDontExistException("Doctor dont exist");
         }
     }
+
+    public void addDoctor(DoctorCreatorDTO doctorCreatorDTO) {
+        var doctor = new Doctor();
+        doctor.setFirstName(doctorCreatorDTO.getFirstName());
+        doctor.setLastName(doctorCreatorDTO.getLastName());
+        doctor.setSpecialization(doctorCreatorDTO.getSpecialization());
+        doctorRepository.saveAndFlush(doctor);
+    }
+
+    public List<Doctor> getDoctor(int page, int limit, String firstName, String lastName, String specialization, String sort, String order) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Doctor> query = criteriaBuilder.createQuery(Doctor.class);
+        Root<Doctor> root = query.from(Doctor.class);
+        List<Predicate> predicates = prepareQuery(firstName, lastName,specialization, criteriaBuilder, root);
+        if(page<=0){
+            page = 1;
+        }
+        query.where(predicates.toArray(new Predicate[0]));
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    private List<Predicate> prepareQuery(String firstName, String lastName, String specialization, CriteriaBuilder criteriaBuilder, Root<Doctor> root) {
+        List<Predicate> predicates = new ArrayList<>();
+        if(firstName != null && !firstName.trim().equals("")){
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")), "%" + firstName.toLowerCase() + "%"));
+        }
+        if(lastName != null && !lastName.trim().equals("")){
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")), "%" + lastName.toLowerCase() + "%"));
+        }
+        if(specialization != null && !specialization.trim().equals("")){
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("specialization")), "%" + specialization.toLowerCase() + "%"));
+        }
+        return predicates;
+    }
+
+
 }

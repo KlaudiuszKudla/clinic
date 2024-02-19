@@ -1,9 +1,10 @@
 package com.example.clinic.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Set;
+
 
 @Entity
 @Data
@@ -16,6 +17,9 @@ public class Doctor {
     private String firstName;
     private String lastName;
     private String specialization;
-    @OneToOne(mappedBy = "doctor")
-    private Appointment appointment;
+    @OneToMany(mappedBy = "doctor",
+                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                            CascadeType.DETACH, CascadeType.REFRESH})
+    private Set<Appointment> appointments;
+
 }

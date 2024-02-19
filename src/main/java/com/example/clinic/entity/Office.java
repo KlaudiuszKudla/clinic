@@ -2,6 +2,7 @@ package com.example.clinic.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.Set;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +16,7 @@ public class Office {
     @SequenceGenerator(name = "offices_id_seq", sequenceName = "offices_id_generator", allocationSize = 1)
     private Long id;
     private int size;
-    @OneToOne(mappedBy = "office")
-    private Appointment appointment;
+    @OneToMany(mappedBy = "office")
+    private Set<Appointment> appointments;
 
 }
