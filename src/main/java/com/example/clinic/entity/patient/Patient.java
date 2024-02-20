@@ -1,7 +1,9 @@
-package com.example.clinic.entity;
+package com.example.clinic.entity.patient;
 
+import com.example.clinic.entity.appointment.Appointment;
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.Set;
 
 @Entity
 @Data
@@ -15,7 +17,7 @@ public class Patient {
     private String firstName;
     private String lastName;
     private String pesel;
-    @OneToOne(mappedBy = "patient")
-    private Appointment appointment;
+    @OneToMany(mappedBy = "patient")
+    private Set<Appointment> appointments;
 
 }

@@ -1,13 +1,10 @@
 package com.example.clinic.controller;
 
-import com.example.clinic.entity.Code;
-import com.example.clinic.entity.DoctorCreatorDTO;
-import com.example.clinic.entity.Response;
-import com.example.clinic.exception.DocktorDontExistException;
+import com.example.clinic.entity.response.Code;
+import com.example.clinic.entity.doctor.DoctorCreatorDTO;
+import com.example.clinic.entity.response.Response;
 import com.example.clinic.mediator.DoctorMediator;
 import com.example.clinic.service.DoctorService;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

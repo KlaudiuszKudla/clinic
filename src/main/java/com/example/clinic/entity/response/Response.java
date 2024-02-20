@@ -1,5 +1,6 @@
-package com.example.clinic.entity;
+package com.example.clinic.entity.response;
 
+import com.example.clinic.entity.response.Code;
 import lombok.Getter;
 
 import java.sql.Timestamp;

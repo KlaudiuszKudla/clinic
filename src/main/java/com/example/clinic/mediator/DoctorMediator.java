@@ -1,6 +1,6 @@
 package com.example.clinic.mediator;
 
-import com.example.clinic.entity.Doctor;
+import com.example.clinic.entity.doctor.Doctor;
 import com.example.clinic.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

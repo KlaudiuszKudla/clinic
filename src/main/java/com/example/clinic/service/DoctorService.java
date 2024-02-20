@@ -1,8 +1,8 @@
 package com.example.clinic.service;
 
-import com.example.clinic.entity.Doctor;
-import com.example.clinic.entity.DoctorCreatorDTO;
-import com.example.clinic.exception.DocktorDontExistException;
+import com.example.clinic.entity.doctor.Doctor;
+import com.example.clinic.entity.doctor.DoctorCreatorDTO;
+import com.example.clinic.exception.DoctorDontExistException;
 import com.example.clinic.repository.DoctorRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -11,7 +11,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +25,12 @@ public class DoctorService {
     EntityManager entityManager;
 
     private final DoctorRepository doctorRepository;
-    public ResponseEntity<Doctor> getDoctorBySpecialization(String specialization) throws DocktorDontExistException {
+    public ResponseEntity<Doctor> getDoctorBySpecialization(String specialization) throws DoctorDontExistException {
         var doctor = doctorRepository.findDoctorBySpecialization(specialization).orElse(null);
         if(doctor != null){
             return ResponseEntity.ok(doctor);
         }else {
-            throw new DocktorDontExistException("Doctor dont exist");
+            throw new DoctorDontExistException("Doctor dont exist");
         }
     }
 
@@ -70,4 +69,8 @@ public class DoctorService {
     }
 
 
+    public Doctor findDoctorById(Long doctorId) throws DoctorDontExistException{
+        return this.doctorRepository.findDoctorById(doctorId)
+                .orElseThrow(() -> new DoctorDontExistException("Doctor not found with ID: " + doctorId));
+    }
 }

@@ -1,13 +1,19 @@
-package com.example.clinic.entity;
+package com.example.clinic.entity.doctor;
 
+import com.example.clinic.entity.appointment.Appointment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Table(name = "doctors")
 public class Doctor {
     @Id
@@ -17,9 +23,18 @@ public class Doctor {
     private String firstName;
     private String lastName;
     private String specialization;
+    @JsonIgnore
     @OneToMany(mappedBy = "doctor",
                 cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                             CascadeType.DETACH, CascadeType.REFRESH})
     private Set<Appointment> appointments;
+
+    public void addAppointment(Appointment appointment){
+        if (appointments == null){
+            appointments = new HashSet<>();
+        }
+        appointments.add(appointment);
+        appointment.setDoctor(this);
+    }
 
 }

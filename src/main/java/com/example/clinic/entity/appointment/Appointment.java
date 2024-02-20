@@ -1,10 +1,12 @@
-package com.example.clinic.entity;
+package com.example.clinic.entity.appointment;
 
+import com.example.clinic.entity.doctor.Doctor;
+import com.example.clinic.entity.office.Office;
+import com.example.clinic.entity.patient.Patient;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -13,7 +15,8 @@ import java.time.LocalTime;
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "appointments_id_seq",strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "appointments_id_seq", sequenceName = "appointments_id_seq", allocationSize = 1)
     private Long id;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "office_id", referencedColumnName = "id")
@@ -29,6 +32,5 @@ public class Appointment {
     private String note;
     private LocalTime admissionStartTime;
     private LocalTime admissionEndTime;
-    private LocalDate admissionStartDate;
-    private LocalDate admissionEndDate;
+    private LocalDate admissionDate;
 }
