@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class DoctorService {
 
     private final DoctorRepository doctorRepository;
     public ResponseEntity<Doctor> getDoctorBySpecialization(String specialization) throws DoctorDontExistException {
-        var doctor = doctorRepository.findDoctorBySpecialization(specialization).orElse(null);
+        var doctor = doctorRepository.findDoctorBySpecialization(specialization);
         if(doctor != null){
             return ResponseEntity.ok(doctor);
         }else {
@@ -69,8 +70,9 @@ public class DoctorService {
     }
 
 
-    public Doctor findDoctorById(Long doctorId) throws DoctorDontExistException{
-        return this.doctorRepository.findDoctorById(doctorId)
-                .orElseThrow(() -> new DoctorDontExistException("Doctor not found with ID: " + doctorId));
+
+    public Doctor findDoctorById(Long doctorId){
+        return this.doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new DoctorDontExistException("Doctor dont exist"));
     }
 }

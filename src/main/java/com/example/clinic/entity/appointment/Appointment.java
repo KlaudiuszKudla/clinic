@@ -3,14 +3,21 @@ package com.example.clinic.entity.appointment;
 import com.example.clinic.entity.doctor.Doctor;
 import com.example.clinic.entity.office.Office;
 import com.example.clinic.entity.patient.Patient;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "appointments")
 public class Appointment {
 
@@ -20,12 +27,15 @@ public class Appointment {
     private Long id;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "office_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Office office;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Patient patient;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Doctor doctor;
     private boolean isFree;
     private boolean isFinished;

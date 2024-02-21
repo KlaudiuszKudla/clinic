@@ -1,6 +1,6 @@
 package com.example.clinic.exception;
 
-public class DoctorDontExistException extends Exception{
+public class DoctorDontExistException extends RuntimeException{
     public DoctorDontExistException(String message) {
         super(message);
     }

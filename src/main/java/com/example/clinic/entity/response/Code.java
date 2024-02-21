@@ -5,6 +5,7 @@ public enum Code {
     DOCTOR_CREATED("Utworzono doktora"),
     DOCTOR_NOT_EXIST("Doktor o podanych danych nie istnieje"),
     APPOINTMENT_CREATED("Utworzono wizyte"),
+    APPOINTMENT_NOT_EXIST("Wizyta o podanych danych nie istnieje"),
     OFFICE_CREATED("Utworzono gabinet");
     public final String label;
     private Code(String label){

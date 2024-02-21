@@ -1,8 +1,11 @@
 package com.example.clinic.entity.patient;
 
 import com.example.clinic.entity.appointment.Appointment;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,6 +21,7 @@ public class Patient {
     private String lastName;
     private String pesel;
     @OneToMany(mappedBy = "patient")
-    private Set<Appointment> appointments;
+    @JsonBackReference
+    private List<Appointment> appointments;
 
 }

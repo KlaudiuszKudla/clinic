@@ -4,9 +4,13 @@ import com.example.clinic.entity.appointment.Appointment;
 import com.example.clinic.entity.appointment.AppointmentCreatorDTO;
 import com.example.clinic.entity.doctor.Doctor;
 import com.example.clinic.entity.office.Office;
+import com.example.clinic.exception.AppointmentDontExistException;
+import com.example.clinic.exception.DoctorDontExistException;
 import com.example.clinic.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +31,9 @@ public class AppointmentService {
         doctor.addAppointment(appointment);
         office.addAppointment(appointment);
         this.appointmentRepository.saveAndFlush(appointment);
+    }
+
+    public List<Appointment> getAppointmentsByDoctor(Doctor doctor){
+        return this.appointmentRepository.findAppointmentByDoctor(doctor);
     }
 }

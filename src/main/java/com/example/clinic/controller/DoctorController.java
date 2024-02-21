@@ -1,5 +1,6 @@
 package com.example.clinic.controller;
 
+import com.example.clinic.entity.appointment.Appointment;
 import com.example.clinic.entity.response.Code;
 import com.example.clinic.entity.doctor.DoctorCreatorDTO;
 import com.example.clinic.entity.response.Response;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/doctor")

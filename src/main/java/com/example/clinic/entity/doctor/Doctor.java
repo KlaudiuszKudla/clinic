@@ -1,18 +1,21 @@
 package com.example.clinic.entity.doctor;
 
 import com.example.clinic.entity.appointment.Appointment;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Table(name = "doctors")
 public class Doctor {
@@ -23,15 +26,16 @@ public class Doctor {
     private String firstName;
     private String lastName;
     private String specialization;
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "doctor",
+                fetch = FetchType.LAZY,
                 cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                             CascadeType.DETACH, CascadeType.REFRESH})
-    private Set<Appointment> appointments;
+    private List<Appointment> appointments;
 
     public void addAppointment(Appointment appointment){
         if (appointments == null){
-            appointments = new HashSet<>();
+            appointments = new ArrayList<>();
         }
         appointments.add(appointment);
         appointment.setDoctor(this);
