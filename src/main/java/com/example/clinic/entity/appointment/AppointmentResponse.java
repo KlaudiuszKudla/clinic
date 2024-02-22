@@ -15,7 +15,7 @@ public record AppointmentResponse(
         String note,
         LocalTime admissionStartTime,
         LocalTime admissionEndTime,
-        LocalDate adnussionDate,
+        LocalDate admissionDate,
         boolean isFree,
         boolean isFinished
 ) {

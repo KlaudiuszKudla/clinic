@@ -25,6 +25,7 @@ public class OfficeMapperTest {
         OfficeResponse officeResponse = officeMapper.OfficeToOfficeResponse(office);
 
         assertNotNull(officeResponse);
+        assertEquals(office.getSize(), officeResponse.size());
 
     }
 

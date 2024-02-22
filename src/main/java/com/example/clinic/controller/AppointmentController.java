@@ -1,14 +1,10 @@
 package com.example.clinic.controller;
 
-import com.example.clinic.entity.appointment.Appointment;
 import com.example.clinic.entity.appointment.AppointmentCreatorDTO;
-import com.example.clinic.entity.response.Code;
+import com.example.clinic.entity.appointment.AppointmentResponse;
 import com.example.clinic.entity.response.Response;
-import com.example.clinic.exception.AppointmentDontExistException;
-import com.example.clinic.exception.DoctorDontExistException;
 import com.example.clinic.mediator.AppointmentMediator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +23,7 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Appointment>> getAppointmentByDoctor(@RequestParam Long doctorId){
+    public ResponseEntity<List<AppointmentResponse>> getAppointmentByDoctor(@RequestParam Long doctorId){
         return this.appointmentMediator.getAppointmentByDoctor(doctorId);
     }
 
