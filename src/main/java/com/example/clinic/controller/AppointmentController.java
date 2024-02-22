@@ -24,7 +24,11 @@ public class AppointmentController {
 
     @GetMapping
     public ResponseEntity<List<AppointmentResponse>> getAppointmentByDoctor(@RequestParam Long doctorId){
-        return this.appointmentMediator.getAppointmentByDoctor(doctorId);
+        return this.appointmentMediator.getAppointmentsByDoctorId(doctorId);
+    }
+    @GetMapping(value = "/free")
+    public ResponseEntity<List<AppointmentResponse>> getFreeAppointmentsByDoctorId(@RequestParam Long doctorId){
+        return this.appointmentMediator.getAppointmentsByIsFreeAndDoctorId(doctorId);
     }
 
 

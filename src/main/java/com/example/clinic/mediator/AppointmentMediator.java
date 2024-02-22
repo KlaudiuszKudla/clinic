@@ -12,6 +12,7 @@ import com.example.clinic.service.AppointmentService;
 import com.example.clinic.service.DoctorService;
 import com.example.clinic.service.OfficeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -25,20 +26,23 @@ public class AppointmentMediator {
     private final DoctorService doctorService;
     private final OfficeService officeService;
     private final AppointmentService appointmentService;
-    private final AppointmentMapper appointmentMapper;
+
     public ResponseEntity<Response> addAppointment(AppointmentCreatorDTO appointmentCreatorDTO){
         Doctor doctor = this.doctorService.findDoctorById(appointmentCreatorDTO.getDoctorId());
         Office office = this.officeService.findOfficeById(appointmentCreatorDTO.getOfficeId());
         this.appointmentService.addAppointment(doctor, office, appointmentCreatorDTO);
-        return ResponseEntity.ok(new Response(Code.APPOINTMENT_CREATED));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response(Code.APPOINTMENT_CREATED));
     }
 
-    public ResponseEntity<List<AppointmentResponse>> getAppointmentByDoctor(Long doctorId){
-        Doctor doctor = this.doctorService.findDoctorById(doctorId);
-        List<Appointment> appointments = this.appointmentService.getAppointmentsByDoctor(doctor);
-        List<AppointmentResponse> appointmentResponses = appointments.stream()
-                .map(appointmentMapper::AppointmentToAppointmentResponse)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(appointmentResponses);
+    public ResponseEntity<List<AppointmentResponse>> getAppointmentsByDoctorId(Long doctorId){
+        List<AppointmentResponse> appointmentResponse = this.appointmentService.getAppointmentsByDoctorId(doctorId);
+        return ResponseEntity.ok().body(appointmentResponse);
     }
+
+    public ResponseEntity<List<AppointmentResponse>> getAppointmentsByIsFreeAndDoctorId(long doctorId) {
+        List<AppointmentResponse> appointmentResponse = this.appointmentService.getAppointmentsByIsFreeAndDoctorId(doctorId);
+        return ResponseEntity.ok().body(appointmentResponse);
+    }
+
+
 }

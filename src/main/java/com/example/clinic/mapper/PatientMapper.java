@@ -1,6 +1,7 @@
 package com.example.clinic.mapper;
 
 import com.example.clinic.entity.patient.Patient;
+import com.example.clinic.entity.patient.PatientCreator;
 import com.example.clinic.entity.patient.PatientResponse;
 import org.mapstruct.Mapper;
 
@@ -8,5 +9,6 @@ import org.mapstruct.Mapper;
 public abstract class PatientMapper {
 
     public abstract PatientResponse PatientToPatientResponse(Patient patient);
+    public abstract Patient PatientCreatorToPatient(PatientCreator patientCreator);
 
 }
