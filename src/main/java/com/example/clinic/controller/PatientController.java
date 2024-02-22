@@ -1,25 +1,27 @@
 package com.example.clinic.controller;
 
 import com.example.clinic.entity.patient.Patient;
+import com.example.clinic.entity.patient.PatientCreator;
 import com.example.clinic.entity.response.Response;
+import com.example.clinic.service.PatientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController(value = "api/v1/patient")
+@RequiredArgsConstructor
+@RestController
+@RequestMapping(value = "api/v1/patient")
 public class PatientController {
 
-    private final PatienService patienService;
+    private final PatientService patientService;
 
     @GetMapping
-    public ResponseEntity<Patient> getPatient(){
-        return null;
+    public ResponseEntity<Patient> getPatientById(@RequestParam Long patientId){
+        return this.patientService.getPatientById(patientId);
     }
 
     @PostMapping
-    public ResponseEntity<Response> addPatient(@RequestBody PatientRequest patientRequest){
-
+    public ResponseEntity<Response> addPatient(@RequestBody PatientCreator patientCreator){
+        return this.patientService.addPatient(patientCreator);
     }
 }

@@ -29,5 +29,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<Response>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(PatientDontExistException.class)
+    public ResponseEntity<Response> handlePatientDontExistException(PatientDontExistException ex, WebRequest request){
+        Response response = new Response(Code.PATIENT_NOT_EXIST);
+        return new ResponseEntity<Response>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OfficeDontExistException.class)
+    public ResponseEntity<Response> handleOfficeDontExistException(OfficeDontExistException ex, WebRequest request){
+        Response response = new Response(Code.OFFICE_NOT_EXIST);
+        return new ResponseEntity<Response>(response, HttpStatus.NOT_FOUND);
+    }
 
 }
